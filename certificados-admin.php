@@ -67,8 +67,8 @@ function mostrar_metaboxes_certificado($post) {
     echo '<label for="fecha_emision">Fecha de Emisión:</label>';
     echo '<input type="date" name="fecha_emision" value="' . esc_attr($fecha_emision) . '" class="widefat"><br>';
 
-    echo '<label for="folio_certificado">Folio de Certificado:</label>';
-    echo '<input type="text" name="folio_certificado" value="' . esc_attr($folio_certificado) . '" class="widefat"><br>';
+    echo '<label for="folio_certificado">Folio de Certificado <span style="color: red;">*</span>:</label>';
+    echo '<input type="text" name="folio_certificado" value="' . esc_attr($folio_certificado) . '" class="widefat" required><br>';
 
     echo '<label for="tipo_instrumento">Tipo de Instrumento:</label>';
     echo '<input type="text" name="tipo_instrumento" value="' . esc_attr($tipo_instrumento) . '" class="widefat"><br>';
@@ -85,6 +85,33 @@ function mostrar_metaboxes_certificado($post) {
     echo '<label for="numero_inventario">No. Inventario:</label>';
     echo '<input type="text" name="numero_inventario" value="' . esc_attr($numero_inventario) . '" class="widefat"><br>';
 }
+
+// Validar el campo Folio de Certificado
+function validar_folio_certificado($post_id) {
+    if (get_post_type($post_id) == 'certificado') {
+        if (empty($_POST['folio_certificado'])) {
+            // Eliminar acción temporalmente para evitar un bucle
+            remove_action('save_post', 'guardar_info_certificado');
+            // Establecer mensaje de error
+            add_filter('redirect_post_location', function($location) {
+                return add_query_arg('folio_certificado_error', 1, $location);
+            });
+            // Volver a agregar la acción
+            add_action('save_post', 'guardar_info_certificado');
+            // Retornar sin guardar
+            return;
+        }
+    }
+}
+add_action('save_post', 'validar_folio_certificado', 10, 1);
+
+// Mostrar mensaje de error si el campo Folio de Certificado está vacío
+function mostrar_error_folio_certificado() {
+    if (isset($_GET['folio_certificado_error']) && $_GET['folio_certificado_error']) {
+        echo '<div class="error"><p>El campo "Folio de Certificado" es obligatorio.</p></div>';
+    }
+}
+add_action('admin_notices', 'mostrar_error_folio_certificado');
 
 // Guardar la información del certificado y configurar el título a partir del folio del certificado
 function guardar_info_certificado($post_id) {

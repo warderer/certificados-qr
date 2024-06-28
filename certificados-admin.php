@@ -88,6 +88,15 @@ function mostrar_metaboxes_certificado($post) {
 
 // Guardar la información del certificado y configurar el título a partir del folio del certificado
 function guardar_info_certificado($post_id) {
+    // Verificar si es una auto-save y si el tipo de post es 'certificado'
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!isset($_POST['post_type']) || 'certificado' !== $_POST['post_type']) {
+        return;
+    }
+
     if (array_key_exists('laboratorio', $_POST)) {
         update_post_meta($post_id, 'laboratorio', sanitize_text_field($_POST['laboratorio']));
     }

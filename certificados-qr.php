@@ -2,7 +2,7 @@
 /*
 Plugin Name: Certificados QR
 Description: Plugin para registrar y validar certificados con QR.
-Version: 1.8
+Version: 2.0
 Author: Artice: Agencia de Diseño
 */
 

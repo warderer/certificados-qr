@@ -9,3 +9,39 @@
     padding: 5px 10px;
     font-size: 14px;
 }
+
+/* Certificado */
+.single-certificado article {
+    display: flex;
+    justify-content: center;
+}
+
+.single-certificado .container {
+    padding-top: 0px!important;
+}
+
+input#search-folio {
+    margin-right: 20px;
+    height: 35px;
+    width: 220px;
+}
+
+/* Ocultar Titulo, Author e Imagen Destacada */
+.single-certificado .et_post_meta_wrapper, .single-certificado .et_right_sidebar  {
+    display: none!important;
+}
+
+@media (max-width: 980px) {
+    .et_right_sidebar #sidebar {
+    display:none!important;
+    }
+}
+
+/* Ocultar sidebar y hacer 100% el ancho del certificado */ 
+.single-certificado .et_post_meta_wrapper, #sidebar, .single-certificado #secondary {
+    display: none;
+}
+
+.single-certificado #primary {
+    width: 100%;
+}
